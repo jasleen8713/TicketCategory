@@ -29,7 +29,8 @@ def sentiment_analysis(ticket_text):
 @app.route("/predict", methods=["GET","POST"])
 def predict():
     data = {"success": False}
-
+    sentiment = ""
+    
     params = flask.request.json
     if (params == None):
         params = flask.request.args
@@ -51,6 +52,8 @@ def predict():
 
         impact_model = load_model('tickettype_model.h5')
         impact_pred = np.argmax(impact_model.predict(x),axis=-1)
+        
+        sentiment = sentiment_analysis(x)
             
 
     # return a reponse in json format 
